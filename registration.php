@@ -45,7 +45,7 @@ function show_form($errors = array()) {
 	include 'registration_form.php';
 }
 
-
+/*
 function validate_form() {
 	global $db;
 	$input = array();
@@ -68,10 +68,84 @@ function validate_form() {
 	}
 		return array($errors, $input);
 }
+*/
 
+function validate_form() {
+	$input = array();
+	$errors = array();
 
+	$input['user_login'] = trim($_POST['user_login'] ?? '');
+	if (! strlen($input['user_login'])) {
+		$errors[] = 'Please enter the login.';
+	}
+
+	$input['user_password'] = trim($_POST['user_password'] ?? '');
+	if (! strlen($input['user_password'])) {
+		$errors[] = 'Please enter the password.';
+	}
+
+	$input['user_name'] = trim($_POST['user_name'] ?? '');
+	if (! strlen($input['user_name'])) {
+		$errors[] = 'Please enter the name.';
+	}
+
+	$input['user_surname'] = trim($_POST['user_surname'] ?? '');
+	if (! strlen($input['user_surname'])) {
+		$errors[] = 'Please enter the article surname.';
+	}
+
+	$input['user_phone'] = trim($_POST['user_phone'] ?? '');
+	if (! strlen($input['user_phone'])) {
+		$errors[] = 'Please enter the phone number.';
+	}
+
+	$input['delivery_address'] = trim($_POST['delivery_address'] ?? '');
+	if (! strlen($input['delivery_address'])) {
+		$errors[] = 'Please enter the delivery address.';
+	}
+
+	function validateDate($date, $format = 'd.m.Y') {
+	  $d = DateTime::createFromFormat($format, $date);
+	  return $d && $d->format($format) == $date;
+	}
+
+	$input['dob'] = trim($_POST['dob'] ?? '');
+	if (!validateDate($input['dob'])) {
+		$errors[] = 'Please enter the Date of Birth.';
+	}
+
+	$input['status'] = trim($_POST['status'] ?? '');
+	if (! strlen($input['status'])) {
+		$input['status'] = 1;
+	}
+
+	$input['role'] = trim($_POST['role'] ?? '');
+	if (! strlen($input['role'])) {
+		$input['role'] = 1;
+	}
+
+	return array($errors, $input);
+}
+
+/*
 function process_form($input) {
 	// ввести имя пользователя в сеанс
 	$_SESSION['username'] = $input['username'];
 	print "Welcome, $_SESSION[username]";
+}
+*/
+
+function process_form($input) {
+	// получить в этой функции доступ к глобальной переменной $db
+	global $db;
+
+	try {
+		$stmt = $db->prepare('INSERT INTO users (user_login, user_password, user_name, user_surname, user_phone, dob, delivery_address, status, role) VALUES (?,?,?,?,?,?,?,?,?)');
+		$stmt->execute(array($input['user_login'], $input['user_password'], $input['user_name'], $input['user_surname'], $input['user_phone'], $input['dob'], $input['delivery_address'], $input['status'], $input['role']));
+
+		print 'Added ' . htmlentities($input['user_login']) . ' to the database.';
+		show_form();
+	} catch (PDOException $e) {
+		print "Couldn't add new user to the database.";
+	}
 }

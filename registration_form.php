@@ -81,7 +81,7 @@
 
 								<tr>
 									<td>Укажите удобный для Вас адрес доставки:</td>
-									<td><?= $form->textarea(['name' => 'description'], 80, 3, 255) ?></td>
+									<td><?= $form->textarea(['name' => 'delivery_address'], 80, 3, 255) ?></td>
 								</tr>
 
 								<tr>
@@ -131,8 +131,8 @@
 
   <script type="text/javascript">
 		$(document).ready(function() { 
-	    $( "#art_form" ).submit(function( event ) {
-	    	$("#art_form")[0].reset();
+	    $( "#reg_form" ).submit(function( event ) {
+	    	$("#reg_form")[0].reset();
 			  alert( "Данные отправлены на сервер" );
 			  event.preventDefault();
 			});
