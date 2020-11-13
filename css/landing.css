@@ -1,0 +1,74 @@
+html,body,.landing, #intro{
+	height: 100%;
+}
+
+#intro{
+	background: url(../img/background_image.png) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	background-size: cover;
+}
+
+.top-nav-collapse{
+	background-color: #150f12;
+}	
+
+@media (max-width: 768px) {
+	.navbar:not(.top-nav-collapse) {
+		background: #24355c;
+	}
+}
+
+.map-container{
+	overflow:hidden;
+	padding-bottom:56.25%;
+	position:relative;
+	height:0;
+}
+.map-container iframe{
+	left:0;
+	top:0;
+	height:100%;
+	width:100%;
+	position:absolute;
+}
+
+.svg {
+	height: 56px;
+	width: auto;
+}
+
+.svg_middle {
+	height: 80px;
+	width: auto;
+}
+
+.svg_big {
+	height: 96px;
+	width: auto;
+}
+
+.brаnds_min {
+	margin-bottom: 10px;
+}
+
+.brаnds_middle {
+	margin-bottom: 34px;
+}
+
+.brаnds {
+	padding-bottom: 20px;
+	margin-top: 20px;
+	margin-bottom: 29px;
+}
+
+.justify {
+	text-align: justify;
+}
+
+.text_blue {
+	color: #2196f3 !important;
+}
+
+.png_little {
+	height: 35%;
+}
