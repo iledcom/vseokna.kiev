@@ -83,14 +83,6 @@
 									<td>Укажите удобный для Вас адрес доставки:</td>
 									<td><?= $form->textarea(['name' => 'delivery_address'], 80, 3, 255) ?></td>
 								</tr>
-
-								<tr>
-									<td><?= $form->input('hidden', ['name' => 'status'], 1) ?></td>
-								</tr>
-
-								<tr>
-									<td><?= $form->input('hidden', ['name' => 'role'], 1) ?></td>
-								</tr>
 								
 								<tr>
 									<td colspan="2" align="center"><?= $form->input('submit',['name' => 'save', 'value' => 'Сохранить']) ?></td>
@@ -128,7 +120,7 @@
   <!-- Initializations -->
 
   <script type="text/javascript" src="../js/common.js"></script>
-
+<!--
   <script type="text/javascript">
 		$(document).ready(function() { 
 	    $( "#reg_form" ).submit(function( event ) {
@@ -139,7 +131,7 @@
 
 		});
 	</script>
-
+ -->
 </body>
 
 </html>
