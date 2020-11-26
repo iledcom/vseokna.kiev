@@ -5,16 +5,18 @@ class Registration {
 	private $form;
 	private $db;
 	private $inputs = array();
+	private $validate;
 
-	public function __construct (FormHelper $form, $db, $server) {
+	public function __construct (FormHelper $form, Validate $validate, $db, $server) {
 		$this->form = $form;
-		$this->inputs = $server;
 		$this->db = $db;
+		$this->inputs = $server;
+		$this->validate = $validate->validateForm($this->inputs);
 	}
 
 	public function registrationStart() {
 		$post = $_SERVER['REQUEST_METHOD'];
-		list($errors, $valid_inputs) = $this->validate_form();
+		list($errors, $valid_inputs) = $this->validate;
 		if ($post == 'POST') {
 			// Если функция validate_form() возвратит ошибки,
 			// передать их функции show_form()
@@ -31,7 +33,6 @@ class Registration {
 	}
 
 	protected function show_form($errors) {
-		$errors = $errors;
 		$form = $this->form;
 		if ($errors) {
 			$errorHtml = '<ul><li>';
@@ -43,6 +44,7 @@ class Registration {
 		include 'registration_form.php';
 	}
 
+/*
 	protected function validate_form() {
 		$inputs = $this->inputs;
 		$errors = array();
@@ -59,14 +61,15 @@ class Registration {
 		}
 			return array($errors, $inputs);
 	}
-
+*/
 	protected function process_form($valid_inputs) {
 		$db = $this->db;
 		$inputs = $valid_inputs;
+		$inputs['user_password'] = password_hash($inputs['user_password'], PASSWORD_DEFAULT);
 
 		try {
 			$stmt = $db->prepare('INSERT INTO users (user_login, user_password, user_name, user_surname, user_phone, dob, delivery_address) VALUES (?,?,?,?,?,?,?)');
-			$stmt->execute(array($valid_inputs['user_login'], $inputs['user_password'], $inputs['user_name'], $inputs['user_surname'], $inputs['user_phone'], $inputs['dob'], $inputs['delivery_address']));
+			$stmt->execute(array($inputs['user_login'], $inputs['user_password'], $inputs['user_name'], $inputs['user_surname'], $inputs['user_phone'], $inputs['dob'], $inputs['delivery_address']));
 
 			print 'Added ' . htmlentities($inputs['user_login']) . ' to the database.';
 			// ввести имя пользователя в сеанс
@@ -75,9 +78,10 @@ class Registration {
 			print "Couldn't add new user to the database.";
 		}	
 	}
-
+/*
 	private function validateDate($date, $format = 'd.m.Y') {
 	  $d = DateTime::createFromFormat($format, $date);
 	  return $d && $d->format($format) == $date;
 	}
+*/
 }
