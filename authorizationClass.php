@@ -1,6 +1,6 @@
 <?php
 
-class Registration {
+class Authorization {
 
 	private $form;
 	private $db;
@@ -14,25 +14,26 @@ class Registration {
 		$this->validate = $validate;
 	}
 
-	public function registrationStart() {
+	public function authorizationStart() {
 		$post = $_SERVER['REQUEST_METHOD'];
-		list($errors, $valid_inputs) = $this->validate->validateForm($this->inputs);
 		if ($post == 'POST') {
+			list($errors, $valid_inputs) = $this->validate->validatePass($this->inputs);
+			
 			// Если функция validate_form() возвратит ошибки,
 			// передать их функции show_form()
 			if ($errors) {
-				return $this->show_form($errors);
+				return $this->showAuthorizationForm($errors);
 			} else {
 				// Переданные данные из формы достоверны, обработать их
 				return $this->process_form($valid_inputs);
 			}
 		} else {
 			// Данные из формы не переданы, отобразить ее снова
-			return $this->show_form($errors);
+			return $this->showAuthorizationForm($errors);
 		}
 	}
 
-	protected function show_form($errors) {
+	protected function showAuthorizationForm($errors) {
 		$form = $this->form;
 		if ($errors) {
 			$errorHtml = '<ul><li>';
@@ -41,25 +42,37 @@ class Registration {
 		} else {
 			$errorHtml = '';
 		}
-		include 'registration_form.php';
+		include 'authorization_form.php';
+	}
+
+	protected function showUnsetForm($errors, $inputs) {
+		$form = $this->form;
+		if ($errors) {
+			$errorHtml = '<ul><li>';
+			$errorHtml .= implode('</li><li>',$errors);
+			$errorHtml .= '</li></ul>';
+		} else {
+			$errorHtml = '';
+		}
+		include 'unset_form.php';
 	}
 
 
 	protected function process_form($valid_inputs) {
 		$db = $this->db;
 		$inputs = $valid_inputs;
-		$inputs['user_password'] = password_hash($inputs['user_password'], PASSWORD_DEFAULT);
+		$_SESSION['username'] = $inputs['user_login'];
+		$this->showUnsetForm($errors, $inputs);
+	}
 
-		try {
-			$stmt = $db->prepare('INSERT INTO users (user_login, user_password, user_name, user_surname, user_phone, dob, delivery_address) VALUES (?,?,?,?,?,?,?)');
-			$stmt->execute(array($inputs['user_login'], $inputs['user_password'], $inputs['user_name'], $inputs['user_surname'], $inputs['user_phone'], $inputs['dob'], $inputs['delivery_address']));
+	public function unsetAuthorization() {
+		$server_method = $_SERVER['REQUEST_METHOD'];
+		$inputs = $_POST;
 
-			print 'Added ' . htmlentities($inputs['user_login']) . ' to the database.';
-			// ввести имя пользователя в сеанс
-			$_SESSION['username'] = $inputs['user_name'];
-		} catch (PDOException $e) {
-			print "Couldn't add new user to the database.";
-		}	
+		if ($server_method == 'POST' && $inputs['unset']) {
+			
+			unset($_SESSION['username']);
+		}
 	}
 
 }
