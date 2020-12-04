@@ -1,7 +1,7 @@
 <?php
 require 'admin/modules/FormHelper.php';
-require 'registrationClass.php';
-require 'validateClass.php';
+require 'classes/registrationClass.php';
+require 'classes/validateClass.php';
 session_start();
 
 
@@ -17,9 +17,8 @@ try {
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $server = $_POST;
-$form = new FormHelper();
-$validate = new Validate();
-$registration = new Registration($form, $validate, $db, $server);
+$validate = new Validate($db);
+$registration = new Registration($validate, $db, $server);
 
 $registration->registrationStart();
 

@@ -1,7 +1,7 @@
 <?php
 require 'admin/modules/FormHelper.php';
-require 'validateClass.php';
-require 'authorizationClass.php';
+require 'classes/validateClass.php';
+require 'classes/authorizationClass.php';
 session_start();
 
 

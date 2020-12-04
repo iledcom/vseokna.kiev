@@ -2,13 +2,12 @@
 
 class Registration {
 
-	private $form;
+
 	private $db;
 	private $inputs = array();
 	private $validate;
 
-	public function __construct (FormHelper $form, Validate $validate, $db, $server) {
-		$this->form = $form;
+	public function __construct (Validate $validate, $db, $server) {
 		$this->db = $db;
 		$this->inputs = $server;
 		$this->validate = $validate;
@@ -19,21 +18,21 @@ class Registration {
 		list($errors, $valid_inputs) = $this->validate->validateForm($this->inputs);
 		if ($post == 'POST') {
 			// Если функция validate_form() возвратит ошибки,
-			// передать их функции show_form()
+			// передать их функции showForm()
 			if ($errors) {
-				return $this->show_form($errors);
+				return $this->showForm($errors);
 			} else {
 				// Переданные данные из формы достоверны, обработать их
-				return $this->process_form($valid_inputs);
+				return $this->processForm($valid_inputs);
 			}
 		} else {
 			// Данные из формы не переданы, отобразить ее снова
-			return $this->show_form($errors);
+			return $this->showForm($errors);
 		}
 	}
 
-	protected function show_form($errors) {
-		$form = $this->form;
+	protected function showForm($errors) {
+		$form = new FormHelper();
 		if ($errors) {
 			$errorHtml = '<ul><li>';
 			$errorHtml .= implode('</li><li>',$errors);
@@ -45,7 +44,7 @@ class Registration {
 	}
 
 
-	protected function process_form($valid_inputs) {
+	protected function processForm($valid_inputs) {
 		$db = $this->db;
 		$inputs = $valid_inputs;
 		$inputs['user_password'] = password_hash($inputs['user_password'], PASSWORD_DEFAULT);

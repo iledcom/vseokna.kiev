@@ -127,7 +127,7 @@
   <!-- Initializations -->
 
   <script type="text/javascript" src="../js/common.js"></script>
-
+<!-- 
   <script type="text/javascript">
 		$(document).ready(function() { 
 	    $( "#art_form" ).submit(function( event ) {
@@ -138,7 +138,7 @@
 
 		});
 	</script>
-
+-->
 </body>
 
 </html>

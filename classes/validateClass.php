@@ -16,8 +16,12 @@ class Validate {
 				$errors[] = "Please enter the $input.";
 			}
 			if ($input == 'dob') {
-				if (!$this->validateDate($inputs['dob'])) {
+				if (!$this->validateDOB($inputs['dob'])) {
 					$errors[] = 'Please enter the correct Date of Birth.';
+				}
+			} elseif($input == 'art_date') {
+				if (!$this->validateDate($inputs['art_date'])) {
+					$errors[] = 'Please enter a valid date.';
 				}
 			}
 		}
@@ -25,7 +29,12 @@ class Validate {
 	}
 
 
-	private function validateDate($date, $format = 'd.m.Y') {
+	private function validateDOB($date, $format = 'd.m.Y') {
+	  $d = DateTime::createFromFormat($format, $date);
+	  return $d && $d->format($format) == $date;
+	}
+
+	private function validateDate($date, $format = 'd.m.Y H:i:s') {
 	  $d = DateTime::createFromFormat($format, $date);
 	  return $d && $d->format($format) == $date;
 	}
