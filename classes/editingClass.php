@@ -72,6 +72,6 @@ class Editing {
 		} catch (PDOException $e) {
 			print "Couldn't add your article to the database.";
 		}
-	}
-	}
+	}	
+	
 }
