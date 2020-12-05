@@ -1,18 +1,17 @@
 <?php
 
-class ArticleAdd {
-
+class Editing {
 	private $db;
 	private $inputs = array();
 	private $validate;
 
-	public function __construct(Validate $validate, $db, $server) {
+	public function __construct(Validate $validate, $db, $post){
 		$this->db = $db;
-		$this->inputs = $server;
+		$this->inputs = $post;
 		$this->validate = $validate;
 	}
 
-	public function createArticle() {
+	public function editArticle() {
 		$post = $_SERVER['REQUEST_METHOD'];
 		list($errors, $valid_inputs) = $this->validate->validateForm($this->inputs);
 		if ($post == 'POST') {
@@ -22,7 +21,7 @@ class ArticleAdd {
 				return $this->showForm($errors);
 			} else {
 				// Переданные данные из формы достоверны, обработать их
-				return $this->processForm($valid_inputs);
+				return $this->saveEditing($valid_inputs);
 			}
 		} else {
 			// Данные из формы не переданы, отобразить ее снова
@@ -30,17 +29,25 @@ class ArticleAdd {
 		}
 	}
 
-	protected function showForm($errors) {
-		$date = date('d.m.Y H:i:s');
-		$defaults = array('art_date' => $date);
-		// создать объект $form с надлежащими свойствами по умолчанию
-		$form = new FormHelper($defaults);
-		// Ради ясности весь код HTML-разметки и отображения
-		// формы вынесен в отдельный файл
-		include './elements/insert-form.php';
+	private function getArticle($inputs){
+		$stmt = $this->db->prepare('SELECT cat, title, description, art_text, art_date, metatitle, metadesc, metakeys, slug FROM article WHERE title = ?');
+		$stmt->execute(array($inputs['title']));
+		$result = $stmt->fetchAll();
+		if (! $result) {
+			$errors[] = 'Please enter the correct title of the article.';
+		}
+		return array($errors, $result);
+		
 	}
 
-	protected function processForm($valid_inputs) {
+	private function showForm($errors){
+		$date = date('d.m.Y H:i:s');
+		$defaults = array('art_date' => $date);
+		$form = new FormHelper($defaults);
+		include './elements/editing_form.php';
+	}
+
+	private function saveEditing($valid_inputs){
 		$input = $valid_inputs;
 
 		switch ($input['cat']) {
@@ -58,13 +65,13 @@ class ArticleAdd {
 		try {
 			$stmt = $this->db->prepare('INSERT INTO article (cat, title, description, art_text, art_date, metatitle, metadesc, metakeys, slug) VALUES (?,?,?,?,?,?,?,?,?)');
 			$stmt->execute(array($cat, $input['title'], $input['description'], $input['art_text'], $input['art_date'], $input['metatitle'], $input['metadesc'], $input['metakeys'], $input['slug']));
-			// сообщить пользователю о вводе блюда в базу данных
-			print 'Added ' . htmlentities($input['title']) . ' to the database.';
+			// сообщить пользователю о вводе изменений в базу данных
+			print 'Added changes of the article ' . htmlentities($input['title']) . ' to the database.';
 			$this->showForm($errors);
-			//Важно !!! Нужно создать форму для редактирования уже добавленных статей и выводить её после добавления статьи
+
 		} catch (PDOException $e) {
 			print "Couldn't add your article to the database.";
 		}
 	}
-
+	}
 }
