@@ -22,6 +22,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $server = $_POST;
 $validate = new Validate($db);
-$edit = new Editing($validate, $db, $server);
+$form = new FormHelper($defaults);
+$edit = new Editing($form, $validate, $db, $server);
 
 $edit->editArticle();

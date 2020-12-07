@@ -2,13 +2,15 @@
 
 class Editing {
 	private $db;
-	private $inputs = array();
+	private $form;
 	private $validate;
-
-	public function __construct(Validate $validate, $db, $post){
-		$this->db = $db;
-		$this->inputs = $post;
+	private $inputs = array();
+	
+	public function __construct(FormHelper $form, Validate $validate, $db, $post){
+		$this->form = $form;
 		$this->validate = $validate;
+		$this->db = $db;
+		$this->inputs = $post;	
 	}
 
 	public function editArticle() {
@@ -21,7 +23,7 @@ class Editing {
 				return $this->showForm($errors);
 			} else {
 				// Переданные данные из формы достоверны, обработать их
-				return $this->saveEditing($valid_inputs);
+				return $this->selectArticle($valid_inputs);
 			}
 		} else {
 			// Данные из формы не переданы, отобразить ее снова
@@ -29,21 +31,21 @@ class Editing {
 		}
 	}
 
-	private function getArticle($inputs){
+	private function selectArticle($valid_inputs){
 		$stmt = $this->db->prepare('SELECT cat, title, description, art_text, art_date, metatitle, metadesc, metakeys, slug FROM article WHERE title = ?');
-		$stmt->execute(array($inputs['title']));
+		$stmt->execute(array($valid_inputs['title']));
 		$result = $stmt->fetchAll();
 		if (! $result) {
 			$errors[] = 'Please enter the correct title of the article.';
 		}
-		return array($errors, $result);
+		return $this->showForm($errors);
 		
 	}
 
 	private function showForm($errors){
 		$date = date('d.m.Y H:i:s');
 		$defaults = array('art_date' => $date);
-		$form = new FormHelper($defaults);
+		$form = $this->form;
 		include './elements/editing_form.php';
 	}
 

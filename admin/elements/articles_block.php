@@ -33,63 +33,37 @@
 
           <!--Grid column-->
           <div class="col-md-12 mb-4">
-
-          	<form name="editing_form" id="editing_form" method="POST" action="<?= $form->encode($_SERVER['PHP_SELF']) ?>">
-							<table>
-								<?php if ($errors) { ?>
-								<tr>
-									<td>You need to correct the following errors:</td>
-									<td>
-										<ul>
-											<?php foreach ($errors as $error) { ?>
-											<li><?= $form->encode($error) ?></li>
-											<?php } ?>
-										</ul>
-									</td>
-								<?php } ?>
-								<tr>
-									<td>Категория:</td>
-									<tr><td><?= $form->input('radio', ['name' => 'cat', 'value' => '1']) ?> Новости</td></tr>
-									<tr><td><?= $form->input('radio', ['name' => 'cat', 'value' => '2']) ?> Производители</td></tr>
-									<tr><td><?= $form->input('radio', ['name' => 'cat', 'value' => '3']) ?> Товары</td></tr>
-								</tr>
-								<tr>
-									<td>Заголовок:</td>
-									<td><?= $form->input('text', ['name' => 'title'], 60) ?></td>
-								</tr>
-								<tr>
-									<td>Описание</td>
-									<td><?= $form->textarea(['name' => 'description'], 80, 3, 255) ?></td>
-								</tr>
-								<tr>
-									<td>Текст</td>
-									<td><?= $form->textarea(['name' => 'art_text']) ?></td>
-								</tr>
-								<tr>
-									<td>Дата</td>
-									<td><?= $form->input('text', ['name' => 'art_date']) ?></td>
-								</tr>
-								<tr>
-									<td>Мета заголовок</td>
-									<td><?= $form->input('text', ['name' => 'metatitle'], 60) ?></td>
-								</tr>
-								<tr>
-									<td>Мета описание</td>
-									<td><?= $form->textarea(['name' => 'metadesc'], 80, 3, 255) ?></td>
-								</tr>
-								<tr>
-									<td>Мета ключевые слова</td>
-									<td><?= $form->input('text', ['name' => 'metakeys'], 80) ?></td>
-								</tr>
-								<tr>
-									<td>Slug (часть URL)</td>
-									<td><?= $form->input('text', ['name' => 'slug'], 60) ?></td>
-								</tr>
-								<tr>
-									<td colspan="2" align="center"><?= $form->input('submit',['name' => 'save', 'value' => 'Сохранить']) ?></td>
-								</tr>
-							</table>
-						</form>
+            <?php
+            if($articles) {
+                foreach ($articles as $article) {
+                  $cat = $article['cat'];
+                  $title = $article['title'];
+                  $description = $article['description'];
+                  $art_text = $article['art_text'];
+                  $art_date = $article['art_date'];
+                  $metatitle = $article['metatitle'];
+                  $metadesc = $article['metadesc'];
+                  $metakeys = $article['metakeys'];
+                  $slug = $article['slug'];
+                  ?>
+                <table cellspacing="2" border="1" cellpadding="5" width="1200" cols="8" rules="all">
+                  <tr>
+                    <td width="5%"><?=print $cat?></td>
+                    <td width="10%"><?=print $title?></td>
+                    <td width="30%"><?=print $description?></td>
+                    <td width="10%"><?=print $art_date?></td>
+                    <td width="5%">
+                      <form name="edit_form" id="edit_form" method="POST" action="articleEdit.php">
+                        <?= $form->input('hidden', ['name' => 'title', 'value' => $title], 60) ?>
+                        <?= $form->input('submit', ['name' => 'edit', 'value' => 'Редактировать']) ?>
+                      </form>
+                    </td>
+                  </tr>
+                </table>
+                <?php }
+              
+              } ?>
+            
 
           </div>
           <!--Grid column-->
