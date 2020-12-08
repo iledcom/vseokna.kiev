@@ -22,8 +22,8 @@ class Editing {
 			if ($errors) {
 				return $this->showForm($errors);
 			} else {
-				// Переданные данные из формы достоверны, обработать их
-				return $this->selectArticle($valid_inputs);
+			 	$article = $this->selectArticle($valid_inputs);
+			 	return $this->showForm($article);
 			}
 		} else {
 			// Данные из формы не переданы, отобразить ее снова
@@ -32,17 +32,20 @@ class Editing {
 	}
 
 	private function selectArticle($valid_inputs){
-		$stmt = $this->db->prepare('SELECT cat, title, description, art_text, art_date, metatitle, metadesc, metakeys, slug FROM article WHERE title = ?');
-		$stmt->execute(array($valid_inputs['title']));
-		$result = $stmt->fetchAll();
+		$stmt = $this->db->prepare('SELECT cat, title, description, art_text, art_date, metatitle, metadesc, metakeys, slug FROM article WHERE art_id = ?');
+		$stmt->execute(array($valid_inputs['art_id']));
+		$result = $stmt->fetch(PDO::FETCH_ASSOC);
 		if (! $result) {
 			$errors[] = 'Please enter the correct title of the article.';
+			return $errors;
+		} else {
+			return $result;
 		}
-		return $this->showForm($errors);
+		
 		
 	}
 
-	private function showForm($errors){
+	private function showForm($article){
 		$date = date('d.m.Y H:i:s');
 		$defaults = array('art_date' => $date);
 		$form = $this->form;

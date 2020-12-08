@@ -36,6 +36,7 @@
             <?php
             if($articles) {
                 foreach ($articles as $article) {
+                  $art_id = $article['art_id'];
                   $cat = $article['cat'];
                   $title = $article['title'];
                   $description = $article['description'];
@@ -48,19 +49,21 @@
                   ?>
                 <table cellspacing="2" border="1" cellpadding="5" width="1200" cols="8" rules="all">
                   <tr>
-                    <td width="5%"><?=print $cat?></td>
-                    <td width="10%"><?=print $title?></td>
-                    <td width="30%"><?=print $description?></td>
-                    <td width="10%"><?=print $art_date?></td>
+                    <td width="5%"><?php print $art_id?></td>
+                    <td width="5%"><?php print $cat?></td>
+                    <td width="10%"><?php print $title?></td>
+                    <td width="30%"><?php print $description?></td>
+                    <td width="10%"><?php print $art_date?></td>
                     <td width="5%">
                       <form name="edit_form" id="edit_form" method="POST" action="articleEdit.php">
-                        <?= $form->input('hidden', ['name' => 'title', 'value' => $title], 60) ?>
+                        <?= $form->input('hidden', ['name' => 'art_id', 'value' => $art_id]) ?>
                         <?= $form->input('submit', ['name' => 'edit', 'value' => 'Редактировать']) ?>
                       </form>
                     </td>
                   </tr>
                 </table>
                 <?php }
+
               
               } ?>
             
