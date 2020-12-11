@@ -3,6 +3,7 @@
 // загрузить вспомогательный класс для составления форм
 require './modules/FormHelper.php';
 require '../classes/validateClass.php';
+require '../classes/articleClass.php';
 require '../classes/editingClass.php';
 date_default_timezone_set('Europe/Kiev');
 
@@ -22,7 +23,5 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $server = $_POST;
 $validate = new Validate($db);
-$form = new FormHelper($defaults);
-$edit = new Editing($form, $validate, $db, $server);
-
+$edit = new Editing($validate, $db, $server);
 $edit->editArticle();

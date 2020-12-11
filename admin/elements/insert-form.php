@@ -17,6 +17,15 @@
   <!-- Your custom styles (optional) -->
   <link href="../css/style.min.css" rel="stylesheet">
   <link href="../css/landing.css" rel="stylesheet">
+
+  <script src='https://cdn.tiny.cloud/1/k73imt48sc2285ng0hmll7d33k6lcdg6hda5nzqvgff42sd3/tinymce/5/tinymce.min.js' referrerpolicy="origin">
+  </script>
+  <script>
+    tinymce.init({
+      selector: '#art_text'
+    });
+  </script>
+
 </head>
 
 <body class="grey lighten-3">
@@ -59,11 +68,11 @@
 								</tr>
 								<tr>
 									<td>Описание</td>
-									<td><?= $form->textarea(['name' => 'description'], 80, 3, 255) ?></td>
+									<td><?= $form->input('text', ['name' => 'description'], 80) ?></td>
 								</tr>
 								<tr>
 									<td>Текст</td>
-									<td><?= $form->textarea(['name' => 'art_text']) ?></td>
+									<td><?= $form->textarea('art_text', ['name' => 'art_text']) ?></td>
 								</tr>
 								<tr>
 									<td>Дата</td>
@@ -75,7 +84,7 @@
 								</tr>
 								<tr>
 									<td>Мета описание</td>
-									<td><?= $form->textarea(['name' => 'metadesc'], 80, 3, 255) ?></td>
+									<td><?= $form->input('text', ['name' => 'metadesc'], 80) ?></td>
 								</tr>
 								<tr>
 									<td>Мета ключевые слова</td>
@@ -127,6 +136,17 @@
   <!-- Initializations -->
 
   <script type="text/javascript" src="../js/common.js"></script>
+
+  <script>
+    tinymce.init({
+      selector: 'art_text',
+      plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+      toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+      toolbar_mode: 'floating',
+      tinycomments_mode: 'embedded',
+      tinycomments_author: 'Author name',
+   });
+  </script>
 <!-- 
   <script type="text/javascript">
 		$(document).ready(function() { 

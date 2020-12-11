@@ -17,6 +17,14 @@
   <!-- Your custom styles (optional) -->
   <link href="../css/style.min.css" rel="stylesheet">
   <link href="../css/landing.css" rel="stylesheet">
+
+  <script src='https://cdn.tiny.cloud/1/k73imt48sc2285ng0hmll7d33k6lcdg6hda5nzqvgff42sd3/tinymce/5/tinymce.min.js' referrerpolicy="origin">
+  </script>
+  <script>
+    tinymce.init({
+      selector: '#art_text'
+    });
+  </script>
 </head>
 
 <body class="grey lighten-3">
@@ -41,49 +49,64 @@
 									<td>You need to correct the following errors:</td>
 									<td>
 										<ul>
-											<?php foreach ($errors as $error) { ?>
+											<?php if(!$articles)
+											foreach ($errors as $error) { ?>
 											<li><?= $form->encode($error) ?></li>
 											<?php } ?>
 										</ul>
 									</td>
-								<?php } ?>
+									<?php } else {
+	                  $art_id = $article['art_id'];
+	                  $cat = $article['cat'];
+	                  $title = $article['title'];
+	                  $description = $article['description'];
+	                  $art_text = $article['art_text'];
+	                  $art_date = $defaults['art_date'];
+	                  $metatitle = $article['metatitle'];
+	                  $metadesc = $article['metadesc'];
+	                  $metakeys = $article['metakeys'];
+	                  $slug = $article['slug'];
+									}?>
+
+								 
 								<tr>
 									<td>Категория:</td>
-									<tr><td><?= $form->input('radio', ['name' => 'cat', 'value' => '1']) ?> Новости</td></tr>
+									<!--Написать условие при выполнении которого input 'radio' будет иметь статус 'checked' по умолчанию-->
+									<tr><td><?= $form->input('radio', ['name' => 'cat', 'value' => '1',], 'checked') ?> Новости</td></tr>
 									<tr><td><?= $form->input('radio', ['name' => 'cat', 'value' => '2']) ?> Производители</td></tr>
 									<tr><td><?= $form->input('radio', ['name' => 'cat', 'value' => '3']) ?> Товары</td></tr>
 								</tr>
 								<tr>
 									<td>Заголовок:</td>
-									<td><?= $form->input('text', ['name' => 'title'], 60) ?></td>
+									<td><?= $form->input('text', ['name' => 'title', 'value' => $title], 60) ?></td>
 								</tr>
 								<tr>
 									<td>Описание</td>
-									<td><?= $form->textarea(['name' => 'description'], 80, 3, 255) ?></td>
+									<td><?= $form->input('text', ['name' => 'description', 'value' => $description], 80) ?></td>
 								</tr>
 								<tr>
 									<td>Текст</td>
-									<td><?= $form->textarea(['name' => 'art_text']) ?></td>
+									<td><?= $form->textarea('art_text', ['name' => 'art_text'], $art_text) ?></td>
 								</tr>
 								<tr>
 									<td>Дата</td>
-									<td><?= $form->input('text', ['name' => 'art_date']) ?></td>
+									<td><?= $form->input('text', ['name' => 'art_date', 'value' => $art_date]) ?></td>
 								</tr>
 								<tr>
 									<td>Мета заголовок</td>
-									<td><?= $form->input('text', ['name' => 'metatitle'], 60) ?></td>
+									<td><?= $form->input('text', ['name' => 'metatitle', 'value' => $metatitle], 60) ?></td>
 								</tr>
 								<tr>
 									<td>Мета описание</td>
-									<td><?= $form->textarea(['name' => 'metadesc'], 80, 3, 255) ?></td>
+									<td><?= $form->input('text', ['name' => 'metadesc', 'value' => $metadesc], 80) ?></td>
 								</tr>
 								<tr>
 									<td>Мета ключевые слова</td>
-									<td><?= $form->input('text', ['name' => 'metakeys'], 80) ?></td>
+									<td><?= $form->input('text', ['name' => 'metakeys', 'value' => $metakeys], 60) ?></td>
 								</tr>
 								<tr>
 									<td>Slug (часть URL)</td>
-									<td><?= $form->input('text', ['name' => 'slug'], 60) ?></td>
+									<td><?= $form->input('text', ['name' => 'slug', 'value' => $slug], 60) ?></td>
 								</tr>
 								<tr>
 									<td colspan="2" align="center"><?= $form->input('submit',['name' => 'save', 'value' => 'Сохранить']) ?></td>
@@ -127,6 +150,17 @@
   <!-- Initializations -->
 
   <script type="text/javascript" src="../js/common.js"></script>
+
+   <script>
+    tinymce.init({
+      selector: 'art_text',
+      plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+      toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+      toolbar_mode: 'floating',
+      tinycomments_mode: 'embedded',
+      tinycomments_author: 'Author name',
+   });
+  </script>
 <!-- 
   <script type="text/javascript">
 		$(document).ready(function() { 

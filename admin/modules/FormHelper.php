@@ -27,13 +27,16 @@ class FormHelper {
 		return $this->start('select', $attributes, $multiple) . $this->options($attributes['name'] ?? null, $options) . $this->end('select');
 	}
 
-	public function textarea($attributes = array(), $cols = 80, $rows = 16, $maxlength = 10000) {
+	public function textarea($id = false, $attributes = array(), $text = false, $cols = 80, $rows = 16, $maxlength = 10000) {
+		$text = $text;
+		$attributes['id'] = $id;
 		$name = $attributes['name'] ?? null;
-		$value = $this->values[$name] ?? '';
+		$value = $this->value[$name] ?? null;
 		$attributes['cols'] = $cols;
 		$attributes['rows'] = $rows;
 		$attributes['maxlength'] = $maxlength;
-		return $this->start('textarea', $attributes) . htmlentities($value) . $this->end('textarea');
+		// Добавлено свойство $text, для вывода уже имеющегося текста, по умолчанию false
+		return $this->start('textarea', $attributes) . htmlentities($value) . $text . $this->end('textarea');
 	}
 
 	public function tag($tag, $attributes = array(), $isMultiple = false) {
