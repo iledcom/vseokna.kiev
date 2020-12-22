@@ -18,9 +18,6 @@ class Authorization {
 		$post = $_SERVER['REQUEST_METHOD'];
 		if ($post == 'POST') {
 			list($errors, $valid_inputs) = $this->validate->validatePass($this->inputs);
-			
-			// Если функция validate_form() возвратит ошибки,
-			// передать их функции show_form()
 			if ($errors) {
 				return $this->showAuthorizationForm($errors);
 			} else {
@@ -45,24 +42,16 @@ class Authorization {
 		include 'authorization_form.php';
 	}
 
-	protected function showUnsetForm($errors, $inputs) {
+	protected function showUnsetForm($inputs) {
 		$form = $this->form;
-		if ($errors) {
-			$errorHtml = '<ul><li>';
-			$errorHtml .= implode('</li><li>',$errors);
-			$errorHtml .= '</li></ul>';
-		} else {
-			$errorHtml = '';
-		}
 		include 'unset_form.php';
 	}
 
-
 	protected function process_form($valid_inputs) {
-		$db = $this->db;
 		$inputs = $valid_inputs;
 		$_SESSION['username'] = $inputs['user_login'];
-		$this->showUnsetForm($errors, $inputs);
+		$_SESSION['role'] = $inputs['role'];
+		$this->showUnsetForm($inputs);
 	}
 
 	public function unsetAuthorization() {

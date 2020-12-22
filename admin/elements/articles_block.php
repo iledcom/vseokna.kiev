@@ -55,7 +55,7 @@
                     <td width="30%"><?php print $description?></td>
                     <td width="10%"><?php print $art_date?></td>
                     <td width="5%">
-                      <form name="edit_form" id="edit_form" method="POST" action="articleEdit.php">
+                      <form name="edit_form" id="edit_form" method="POST" action="admin_article.php">
                         <?= $form->input('hidden', ['name' => 'art_id', 'value' => $art_id]) ?>
                         <?= $form->input('submit', ['name' => 'edit', 'value' => 'Редактировать']) ?>
                       </form>

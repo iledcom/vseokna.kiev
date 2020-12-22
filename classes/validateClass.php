@@ -41,12 +41,13 @@ class Validate {
 
 
 	public function validatePass($inputs) {
-		$stmt = $this->db->prepare('SELECT user_password, user_name FROM users WHERE user_login = ?');
+		$stmt = $this->db->prepare('SELECT user_password, user_name, role FROM users WHERE user_login = ?');
 		$stmt->execute(array($inputs['user_login']));
 		$row = $stmt->fetch();
 		if ($row) {
 			$password_ok = password_verify($inputs['user_password'], $row[0]);
 			$inputs['user_name'] = $row[1];
+			$inputs['role'] = $row[2];
 		}
 		if (! $password_ok) {
 			$errors[] = 'Please enter a valid login and password.';

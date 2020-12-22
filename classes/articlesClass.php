@@ -10,7 +10,7 @@ class Articles {
 		$this->db = $db;
 	}
 
-	public function displayArticle() {
+	public function showArticle() {
 		list($errors, $inputs) = $this->selectArticle();
 		if ($errors) {
 				return $this->showBlockArticles($errors);

@@ -36,7 +36,6 @@
 
           	<p class="h5 my-4"><?=print "Welcome, " . $inputs['user_name'];?></p>
 
-          	
 
           	<form name="unset_form" id="unset_form" method="POST" action="<?= $form->encode($_SERVER['PHP_SELF']) ?>">
 							<table>

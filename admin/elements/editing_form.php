@@ -72,7 +72,7 @@
 								<tr>
 									<td>Категория:</td>
 									<!--Написать условие при выполнении которого input 'radio' будет иметь статус 'checked' по умолчанию-->
-									<tr><td><?= $form->input('radio', ['name' => 'cat', 'value' => '1',], 'checked') ?> Новости</td></tr>
+									<tr><td><?= $form->input('radio', ['name' => 'cat', 'value' => '1']) ?> Новости</td></tr>
 									<tr><td><?= $form->input('radio', ['name' => 'cat', 'value' => '2']) ?> Производители</td></tr>
 									<tr><td><?= $form->input('radio', ['name' => 'cat', 'value' => '3']) ?> Товары</td></tr>
 								</tr>
@@ -109,7 +109,7 @@
 									<td><?= $form->input('text', ['name' => 'slug', 'value' => $slug], 60) ?></td>
 								</tr>
 								<tr>
-									<td colspan="2" align="center"><?= $form->input('submit',['name' => 'save', 'value' => 'Сохранить']) ?></td>
+									<td colspan="2" align="center"><?= $form->input('submit',['name' => 'save', 'value' => 'Сохранить изменения в базе данных']) ?></td>
 								</tr>
 							</table>
 						</form>
