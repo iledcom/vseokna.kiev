@@ -1,4 +1,6 @@
 <?php
+//Класс взят из книги Руководство по созданию интерактивных веб-сайтов - 2017 Дэвид Скляр - Изучаем РНР 7. 
+namespace Classes;
 
 class FormHelper {
 	protected $values = array();
@@ -27,14 +29,10 @@ class FormHelper {
 		return $this->start('select', $attributes, $multiple) . $this->options($attributes['name'] ?? null, $options) . $this->end('select');
 	}
 
-	public function textarea($id = false, $attributes = array(), $text = false, $cols = 80, $rows = 16, $maxlength = 10000) {
+	public function textarea($attributes = array(), $text = false) {
 		$text = $text;
-		$attributes['id'] = $id;
 		$name = $attributes['name'] ?? null;
-		$value = $this->value[$name] ?? null;
-		$attributes['cols'] = $cols;
-		$attributes['rows'] = $rows;
-		$attributes['maxlength'] = $maxlength;
+		$value = $this->values[$name] ?? null;
 		// Добавлено свойство $text, для вывода уже имеющегося текста, по умолчанию false
 		return $this->start('textarea', $attributes) . htmlentities($value) . $text . $this->end('textarea');
 	}

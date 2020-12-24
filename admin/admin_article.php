@@ -3,22 +3,27 @@ session_start();
 
 if($_SESSION['role'] == 1) {
 	// загрузить вспомогательный класс для составления форм
-	require './modules/FormHelper.php';
-	require '../classes/dbClass.php';
-	require '../classes/validateClass.php';
-	require '../classes/articlesClass.php';
-	require '../classes/articleClass.php';
-	require '../classes/editingClass.php';
-	require '../classes/adminArticleClass.php';
+date_default_timezone_set('Europe/Kiev');
+define('CLASS_DIR', $_SERVER['DOCUMENT_ROOT'] . '/classes/');
 
-	date_default_timezone_set('Europe/Kiev');
+ 
+spl_autoload_register(function($class) {
+  $string = explode('\\', $class);
+  $last = array_pop($string);
+  $fn = $last . '.php';
+  $fn = CLASS_DIR . str_replace('\\', '/', $fn);
+  if (file_exists($fn)) require $fn; 
+}, $throw = true);
 
-  $db = DataBase::connect();
+
+// подключиться к базе данных
+$db = \Classes\DataBase::connect();
+
 
 	$post = $_POST;
-	$form = new FormHelper();
-	$validate = new Validate($db);
-	$admin_article = new AdminArticle($validate, $form, $db, $post);
+	$form = new \Classes\FormHelper();
+	$validate = new \Classes\Validate($db);
+	$admin_article = new \Classes\AdminArticle($validate, $form, $db, $post);
 	$admin_article->startProcess();
 
 } else {

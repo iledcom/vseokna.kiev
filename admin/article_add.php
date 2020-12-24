@@ -1,27 +1,31 @@
 <?php
+namespace Admin\Elements;
+session_start();
 
+if($_SESSION['role'] == 1) {
 // загрузить вспомогательный класс для составления форм
-require './modules/FormHelper.php';
-require '../classes/validateClass.php';
-require '../classes/ArticleAddClass.php';
 date_default_timezone_set('Europe/Kiev');
+define('CLASS_DIR', $_SERVER['DOCUMENT_ROOT'] . '/classes/');
+
+ 
+spl_autoload_register(function($class) {
+  $string = explode('\\', $class);
+  $last = array_pop($string);
+  $fn = $last . '.php';
+  $fn = CLASS_DIR . str_replace('\\', '/', $fn);
+  if (file_exists($fn)) require $fn; 
+}, $throw = true);
+
 
 // подключиться к базе данных
-try {
-	$db = new PDO('mysql:host=localhost; dbname=test_db', 'root', '');
-} catch (PDOException $e) {
-	print "Can't connect: " . $e->getMessage();
-	exit();
-}
-// установить исключения при ошибках в базе данных
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-// Основная логика функционирования страницы:
-// - Если форма передана на обработку, проверить достоверность
-// данных, обработать их и снова отобразить форму.
-// - Если форма не передана на обработку, отобразить ее снова
+$db = \Classes\DataBase::connect();
+
 
 $server = $_POST;
-$validate = new Validate($db);
-$article_add = new ArticleAdd($validate, $db, $server);
-
+$validate = new \Classes\Validate($db);
+$article_add = new \Classes\ArticleAdd($validate, $db, $server);
 $article_add->createArticle();
+} else {
+	$errors = array('Error 404. Page not found or does not exist');
+	print $errors[0];
+}

@@ -81,7 +81,7 @@
 
 								<tr>
 									<td>Укажите удобный для Вас адрес доставки:</td>
-									<td><?= $form->textarea(['name' => 'delivery_address'], 80, 3, 255) ?></td>
+									<td><?= $form->textarea(['name' => 'delivery_address', 'id' => 'delivery', 'cols' => 80, 'rows' => 3, 'maxlength' => 255]) ?></td>
 								</tr>
 								
 								<tr>

@@ -1,4 +1,5 @@
 <?php
+namespace Classes;
 
 class Articles {
 	private $form;
@@ -23,7 +24,8 @@ class Articles {
 	private function selectArticle(){
 		$stmt = $this->db->prepare('SELECT art_id, cat, title, description, art_text, art_date, metatitle, metadesc, metakeys, slug FROM article');
 		$stmt->execute();
-		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		// знак косой черты "\" перед PDO нужен для объявления глобального пространства имён
+		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		if (!$result) {
 			$errors[] = 'Check your database connection.';
 		}

@@ -1,6 +1,7 @@
 <?php
+namespace Classes;
 
-class Article implements ArrayAccess {
+class Article implements \ArrayAccess {
 
 
 	private $db;
@@ -16,12 +17,12 @@ class Article implements ArrayAccess {
 	private function selectArticle($valid_inputs){
 		$stmt = $this->db->prepare('SELECT cat, title, description, art_text, art_date, metatitle, metadesc, metakeys, slug FROM article WHERE art_id = ?');
 		$stmt->execute(array($valid_inputs['art_id']));
-		$result = $stmt->fetch(PDO::FETCH_ASSOC);
+		$result = $stmt->fetch(\PDO::FETCH_ASSOC);
 		if (! $result) {
 			$errors[] = 'Please enter the correct title of the article.';
 			return $errors;
 		} else {
-			return $result;
+			return $result;	
 		}
 	}
 

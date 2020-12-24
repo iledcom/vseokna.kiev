@@ -1,4 +1,5 @@
 <?php
+namespace Classes;
 
 class AdminArticle {
 	private $db;

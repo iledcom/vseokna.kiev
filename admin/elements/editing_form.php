@@ -86,7 +86,7 @@
 								</tr>
 								<tr>
 									<td>Текст</td>
-									<td><?= $form->textarea('art_text', ['name' => 'art_text'], $art_text) ?></td>
+									<td><?= $form->textarea(['name' => 'art_text', 'id' => 'art_text', 'cols' => 80, 'rows' => 12, 'maxlength' => 255], $art_text) ?></td>
 								</tr>
 								<tr>
 									<td>Дата</td>
