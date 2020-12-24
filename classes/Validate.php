@@ -31,12 +31,12 @@ class Validate {
 
 
 	private function validateDOB($date, $format = 'd.m.Y') {
-	  $d = DateTime::createFromFormat($format, $date);
+	  $d = \DateTime::createFromFormat($format, $date);
 	  return $d && $d->format($format) == $date;
 	}
 
 	private function validateDate($date, $format = 'd.m.Y H:i:s') {
-	  $d = DateTime::createFromFormat($format, $date);
+	  $d = \DateTime::createFromFormat($format, $date);
 	  return $d && $d->format($format) == $date;
 	}
 

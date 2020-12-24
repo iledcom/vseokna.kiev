@@ -33,7 +33,7 @@ class Registration {
 	}
 
 	protected function showForm($errors) {
-		$form = new FormHelper();
+		$form = new \Classes\FormHelper();
 		if ($errors) {
 			$errorHtml = '<ul><li>';
 			$errorHtml .= implode('</li><li>',$errors);

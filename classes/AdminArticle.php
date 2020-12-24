@@ -15,8 +15,7 @@ class AdminArticle {
 	}
 
 	public function startProcess() {
-
-		if($this->inputs['edit']) {
+		if($this->inputs['edit'] || $this->inputs['save']) {
 			$this->editingArticle();
 		} else {
 			$this->showArticles();
@@ -26,11 +25,6 @@ class AdminArticle {
 	protected function showArticles(){
 		$articles = new Articles($this->form, $this->db);
 		$articles->showArticle();
-	}
-
-	protected function selectArticle(){
-		$article = new Article($this->db, $this->inputs);
-		return $article;
 	}
 
 	protected function editingArticle(){
