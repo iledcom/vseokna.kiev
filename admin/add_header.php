@@ -23,8 +23,8 @@ $db = \Classes\DataBase::connect();
 
 $server = $_POST;
 $validate = new \Classes\Validate($db);
-$article_add = new \Classes\ArticleAdd($validate, $db, $server);
-$article_add->createArticle();
+$header_add = new \Classes\HeaderAdd($validate, $db, $server);
+$header_add->createHeader();
 } else {
 	$errors = array('Error 404. Page not found or does not exist');
 	print $errors[0];

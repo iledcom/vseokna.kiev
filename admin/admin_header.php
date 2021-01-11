@@ -3,7 +3,7 @@ namespace Admin;
 session_start();
 
 if($_SESSION['role'] == 1) {
-// загрузить вспомогательный класс для составления форм
+	// загрузить вспомогательный класс для составления форм
 date_default_timezone_set('Europe/Kiev');
 define('CLASS_DIR', $_SERVER['DOCUMENT_ROOT'] . '/classes/');
 
@@ -21,10 +21,12 @@ spl_autoload_register(function($class) {
 $db = \Classes\DataBase::connect();
 
 
-$server = $_POST;
-$validate = new \Classes\Validate($db);
-$article_add = new \Classes\ArticleAdd($validate, $db, $server);
-$article_add->createArticle();
+	$post = $_POST;
+	$form = new \Classes\FormHelper();
+	$validate = new \Classes\Validate($db);
+	$admin_header = new \Classes\AdminHeaders($validate, $form, $db, $post);
+	$admin_header->startProcess();
+
 } else {
 	$errors = array('Error 404. Page not found or does not exist');
 	print $errors[0];

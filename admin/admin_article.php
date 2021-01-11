@@ -1,5 +1,5 @@
 <?php
-namespace Admin\Elements;
+namespace Admin;
 session_start();
 
 if($_SESSION['role'] == 1) {
