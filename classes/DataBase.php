@@ -1,11 +1,11 @@
 <?php
 namespace Classes;
 
-class DataBase {
+abstract class DataBase {
 
 	static public $link;
 
-	public function __construct() {
+	private function __construct() {
 
 	}
 
