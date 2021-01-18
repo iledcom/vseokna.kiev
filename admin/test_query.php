@@ -27,7 +27,8 @@ spl_autoload_register(function($class) {
 	$request = new \Classes\RequestDB();
 	$select = new \Classes\Select($request);
 	$fields = array('cat', 'title', 'description');
-	$request->getQuery();
+	//$request->getQuery();
+	print_r($request);
 	
 
 

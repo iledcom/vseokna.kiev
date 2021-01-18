@@ -4,31 +4,26 @@ namespace Classes;
 class RequestDB {
 	//private $mysqli;
 	private $db;
+	private $select;
+	private $request;
 	private $prefix = false;
 	
 	public function __construct() {
 		$this->db = \Classes\DataBase::connect();
+		$this->select = new \Classes\Select($this);
 	}
 
-	public function getQuery($query, $params) {
-		if ($params) {
+	public function getQuery($sql, $params) {
+		$sql = 'INSERT INTO article (cat, title, description, art_text, art_date, metatitle, metadesc, metakeys, slug) VALUES (?,?,?,?,?,?,?,?,?)';
+		$params = array($cat, $input['title'], $input['description'], $input['art_text'], $input['art_date'], $input['metatitle'], $input['metadesc'], $input['metakeys'], $input['slug']);
 
-			for ($i = 0; $i < count($params); $i++) {
-				$pos = strpos($query, $offset);
-				if (is_null($params[$i])) $arg = "NULL";
-				else $arg = "'".$this->db->prepare($params[$i])."'";
-				$query = substr_replace($query, $arg, $pos);
-				$offset = $pos + strlen($arg);
-			}
-		}
-		return $query;
+		return array($sql, $params);
 	}
-	
 	public function select(Select $select) {
 		$result_set = $this->getResultSet($select, true, true);
 		if (!$result_set) return false;
 		$array = array();
-		while (($row = $result_set->fetch_assoc()) != false)
+		while (($row = $result_set->fetch(\PDO::FETCH_ASSOC)) != false)
 			$array[] = $row;
 		return $array;
 	}
@@ -36,14 +31,14 @@ class RequestDB {
 	public function selectRow(Select $select) {
 		$result_set = $this->getResultSet($select, false, true);
 		if (!$result_set) return false;
-		return $result_set->fetch_assoc();
+		return $result_set->fetch(\PDO::FETCH_ASSOC);
 	}
 	
 	public function selectCol(Select $select) {
 		$result_set = $this->getResultSet($select, true, true);
 		if (!$result_set) return false;
 		$array = array();
-		while (($row = $result_set->fetch_assoc()) != false) {
+		while (($row = $result_set->fetch(\PDO::FETCH_ASSOC)) != false) {
 			foreach ($row as $value) {
 				$array[] = $value;
 				break;
@@ -55,7 +50,7 @@ class RequestDB {
 	public function selectCell(Select $select) {
 		$result_set = $this->getResultSet($select, false, true);
 		if (!$result_set) return false;
-		$arr = array_values($result_set->fetch_assoc());
+		$arr = array_values($result_set->fetch(\PDO::FETCH_ASSOC));
 		return $arr[0];
 	}
 	
@@ -105,11 +100,11 @@ class RequestDB {
 		return $this->prefix.$table_name;
 	}
 	
-	private function query($query, $params = false) {
-		$success = $this->mysqli->query($this->getQuery($query, $params));
+	private function query($sql, $params = false) {
+		$success = $this->db->query($this->getQuery($sql, $params));
 		if (!$success) return false;
-		if ($this->mysqli->insert_id === 0) return true;
-		return $this->mysqli->insert_id;
+		if ($this->db->lastInsertId() === 0) return true;
+		return $this->db->lastInsertId();
 	}
 	
 	private function getResultSet(Select $select, $zero, $one) {
