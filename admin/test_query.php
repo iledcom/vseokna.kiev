@@ -26,9 +26,13 @@ spl_autoload_register(function($class) {
 	$validate = new \Classes\Validate($db);
 	$request = new \Classes\RequestDB();
 	$select = new \Classes\Select($request);
-	$fields = array('cat', 'title', 'description');
+	$select_row = new \Classes\SelectRow($request);
+	$select_col = new \Classes\SelectCol($request);
+	$fields = array('cat'=>'manufacturer', 'title'=>'Name2', 'description'=>'desr');
+	$insert = new \Classes\Insert($request, 'article', $fields);
 	//$request->getQuery();
-	print_r($request);
+	//print_r($insert);
+	$insert->insert();
 	
 
 
