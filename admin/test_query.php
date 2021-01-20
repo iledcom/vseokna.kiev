@@ -24,15 +24,22 @@ spl_autoload_register(function($class) {
 	$post = $_POST;
 	$form = new \Classes\FormHelper();
 	$validate = new \Classes\Validate($db);
+	
+	//$select = new \Classes\Select($request);
+	//$select_row = new \Classes\SelectRow($request);
+	//$select_col = new \Classes\SelectCol($request);
+	$table_name = 'article';
+	$fields = array('cat'=>'manufacturer', 'title'=>'Name3', 'description'=>'desr');
+	$params = array('Name3');
+
 	$request = new \Classes\RequestDB();
-	$select = new \Classes\Select($request);
-	$select_row = new \Classes\SelectRow($request);
-	$select_col = new \Classes\SelectCol($request);
-	$fields = array('cat'=>'manufacturer', 'title'=>'Name2', 'description'=>'desr');
-	$insert = new \Classes\Insert($request, 'article', $fields);
+	//$insert = new \Classes\Insert($request, 'article', $fields);
 	//$request->getQuery();
 	//print_r($insert);
-	$insert->insert();
+
+	//$request->insert($table_name, $fields);
+	//$request->update($table_name, $fields, 'title', $params);
+	//$request->delete($table_name, 'title', $params);
 	
 
 
