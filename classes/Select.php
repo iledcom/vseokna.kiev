@@ -3,18 +3,18 @@
 namespace Classes;
 class Select {
 	
-	private $rdb;
+	private $db;
 	private $from = "";
 	private $where = "";
 	private $order = "";
 	private $limit = "";
 	
-	public function __construct($rdb) {
-		$this->rdb = $rdb;
+	public function __construct($db) {
+		$this->db = $db;
 	}
 
 	public function from($table_name, $fields) {
-		$table_name = $this->rdb->getTableName($table_name);
+
 		$from = "";
 		if ($fields == "*") $from = "*";
 		else {
@@ -34,7 +34,7 @@ class Select {
 	
 	public function where($where, $values = array(), $and = true) {
 		if ($where) {
-			$where = $this->rdb->query($where, $values);
+			$where = $this->db->query($where, $values);
 			$this->addWhere($where, $and);
 		}
 		return $this;
@@ -43,7 +43,7 @@ class Select {
 	public function whereIn($field, $values, $and = true) {
 		$where = "$field IN (";
 		foreach ($values as $value) {
-			$where .= $this->rdb->getSQ().",";
+			$where .= $this->db->getSQ().",";
 		}
 		$where = substr($where, 0, -1);
 		$where .= ")";
@@ -51,7 +51,7 @@ class Select {
 	}
 	
 	public function whereFIS($col_name, $value, $and = true) {
-		$where = "FIND_IN_SET (".$this->rdb->getSQ().", $col_name) > 0";
+		$where = "FIND_IN_SET (".$this->db->getSQ().", $col_name) > 0";
 		return $this->where($where, array($value), $and);
 	}
 	

@@ -57,14 +57,25 @@ class RequestDB {
 		return $stmt->execute($params);
 	}
 
-
+/*
 	private function query($sql, $params = false) {
 		$success = $this->db->query($this->getQuery($sql, $params));
 		if (!$success) return false;
 		if ($this->db->lastInsertId() === 0) return true;
 		return $this->db->lastInsertId();
 	}
+*/
 
+	public function select($table_name, $fields) {
+		$select = new Select($this->db);
+		$query = $select->from($table_name, $fields);
+		$stmt = $this->db->prepare($query);
+		$stmt->execute($params);
+		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+		print_r($result);
+		return $result;
+	}
 		
 	
 	public function __destruct() {

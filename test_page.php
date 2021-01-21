@@ -156,16 +156,16 @@ print from($table_name, $fields);
 
 print "<br>";
 
-$query = 'query';
-$params = array('params1', 'params2', 'params3');
+//$query = 'query';
+//$params = array('params1', 'params2', 'params3');
 
-print getQuery($query, $params);
-print "<br>";
-print_r (query());
-print "<br>";
+//print getQuery($query, $params);
+//print "<br>";
+//print_r (query());
+//print "<br>";
 
-$where = "art_id";
-print addWhere($where);
+//$where = "art_id";
+//print addWhere($where);
 
 
 
