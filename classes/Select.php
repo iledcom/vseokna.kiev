@@ -12,6 +12,7 @@ class Select {
 	public function __construct($db) {
 		$this->db = $db;
 	}
+// 
 
 	public function from($table_name, $fields) {
 
@@ -34,7 +35,7 @@ class Select {
 	
 	public function where($where, $values = array(), $and = true) {
 		if ($where) {
-			$where = $this->db->query($where, $values);
+			$where .= "=?";
 			$this->addWhere($where, $and);
 		}
 		return $this;
@@ -98,7 +99,6 @@ class Select {
 	
 	private function addWhere($where, $and) {
 		if ($this->where) {
-			$this->where .= "=?";
 			if ($and) $this->where .= " AND ";
 			else $this->where .= " OR ";
 			$this->where .= $where;

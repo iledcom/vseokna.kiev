@@ -31,7 +31,7 @@ spl_autoload_register(function($class) {
 	$table_name = 'article';
 	$fields = array('cat'=>'manufacturer', 'title'=>'Name3', 'description'=>'desr');
 	$fields_sect = array('cat', 'title', 'description');
-	$params = array('Name3');
+	$params = array(42, 'Выбор окон');
 
 	$request = new \Classes\RequestDB();
 	//$insert = new \Classes\Insert($request, 'article', $fields);
@@ -41,7 +41,7 @@ spl_autoload_register(function($class) {
 	//$request->insert($table_name, $fields);
 	//$request->update($table_name, $fields, 'title', $params);
 	//$request->delete($table_name, 'title', $params);
-	$request->select($table_name, $fields_sect);
+	$request->select($table_name, $fields_sect, 'art_id', $params, 'title');
 	
 
 
