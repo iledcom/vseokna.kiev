@@ -34,9 +34,10 @@ class Select {
 	}
 	
 	public function where($where, $values = array(), $and = true) {
-		if ($where) {
-			$where .= "=?";
-			$this->addWhere($where, $and);
+		$where .= "=?";
+		$this->where = "WHERE $where";
+		if ($and) {
+			$this->addWhere($and, $values);	
 		}
 		return $this;
 	}
@@ -101,9 +102,8 @@ class Select {
 		if ($this->where) {
 			if ($and) $this->where .= " AND ";
 			else $this->where .= " OR ";
-			$this->where .= $where;
+			$this->where .= "$where =?";
 		}
-		else $this->where = "WHERE $where";
 	}
 }
 

@@ -47,7 +47,6 @@ class RequestDB {
 			$query .= " WHERE $where = ?";
 		}
 		$stmt = $this->db->prepare($query);
-
 		return $stmt->execute($params);
 	}
 
@@ -65,10 +64,10 @@ class RequestDB {
 		if($where) $select->where($where, $values, $and);
 		print $select;
 		$stmt = $this->db->prepare($select);
-		$stmt->execute($params);
+		$stmt->execute($values);
 		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		
-		//print_r($result);
+		print_r($result);
 		return $result;
 	}
 		
