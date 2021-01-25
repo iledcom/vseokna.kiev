@@ -30,8 +30,11 @@ spl_autoload_register(function($class) {
 	//$select_col = new \Classes\SelectCol($request);
 	$table_name = 'article';
 	$fields = array('cat'=>'manufacturer', 'title'=>'Name3', 'description'=>'desr');
-	$fields_sect = array('cat', 'title', 'description');
-	$params = array(42, 'Выбор окон');
+	$fields2 = array('cat', 'title', 'description');
+	$where = 'cat';
+	$and = 'title';
+	$in = 1;
+	$params = array('manufacturer');
 
 	$request = new \Classes\RequestDB();
 	//$insert = new \Classes\Insert($request, 'article', $fields);
@@ -41,7 +44,7 @@ spl_autoload_register(function($class) {
 	//$request->insert($table_name, $fields);
 	//$request->update($table_name, $fields, 'title', $params);
 	//$request->delete($table_name, 'title', $params);
-	$request->select($table_name, $fields_sect, 'art_id', $params, 'title');
+	$request->select($table_name, $fields2, $where, $params, false, 1);
 	
 
 

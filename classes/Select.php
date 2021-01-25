@@ -45,11 +45,12 @@ class Select {
 	public function whereIn($field, $values, $and = true) {
 		$where = "$field IN (";
 		foreach ($values as $value) {
-			$where .= $this->db->getSQ().",";
+			$where .= "?".",";
 		}
 		$where = substr($where, 0, -1);
 		$where .= ")";
-		return $this->where($where, $values, $and);
+		$this->where = "WHERE $where";
+		return $this;
 	}
 	
 	public function whereFIS($col_name, $value, $and = true) {

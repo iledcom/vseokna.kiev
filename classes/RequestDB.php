@@ -58,10 +58,11 @@ class RequestDB {
 		return $stmt->execute($params);
 	}
 
-	public function select($table_name, $fields, $where = false, $values = false, $and = false) {
+	public function select($table_name, $fields, $where = false, $values = false, $and = false, $in = false) {
 		$select = new Select($this->db);
 		$select->from($table_name, $fields);
-		if($where) $select->where($where, $values, $and);
+		if($where && !$in) $select->where($where, $values, $and);
+		if($where && $in) $select->whereIn($where, $values, $and);
 		print $select;
 		$stmt = $this->db->prepare($select);
 		$stmt->execute($values);
