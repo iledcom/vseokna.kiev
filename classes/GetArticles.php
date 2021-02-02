@@ -1,7 +1,7 @@
 <?php
 namespace Classes;
 
-class TestGetArticles {
+class GetArticles {
 	private $form;
 	private $title;
 	private $request;
@@ -40,7 +40,7 @@ class TestGetArticles {
 
 	private function showBlockArticles($articles){
 		$form = $this->form;
-		include './elements/articles_block.php';
+		include '../view/view_articles.php';
 
 
 	}

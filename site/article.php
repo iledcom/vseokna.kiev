@@ -23,7 +23,7 @@ spl_autoload_register(function($class) {
 	$form = new \Classes\FormHelper();
 	$validate = new \Classes\Validate($db);
 	$request = new \Classes\RequestDB();
-	$admin_article = new \Classes\TestGetArticles($form, $request);
+	$admin_article = new \Classes\GetArticles($form, $request);
 	$admin_article->showArticle();
 
 } else {
