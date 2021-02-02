@@ -54,7 +54,6 @@ class RequestDB {
 		$query = "DELETE FROM $table_name";
 		if ($where) $query .= " WHERE $where =?";
 		$stmt = $this->db->prepare($query);
-		print_r($stmt);
 		return $stmt->execute($params);
 	}
 
@@ -63,12 +62,9 @@ class RequestDB {
 		$select->from($table_name, $fields);
 		if($where && !$in) $select->where($where, $values, $and);
 		if($where && $in) $select->whereIn($where, $values, $and);
-		print $select;
 		$stmt = $this->db->prepare($select);
 		$stmt->execute($values);
 		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		
-		print_r($result);
 		return $result;
 	}
 		

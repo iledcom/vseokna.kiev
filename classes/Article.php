@@ -22,7 +22,7 @@ class Article implements \ArrayAccess {
 			$errors[] = 'Please enter the correct title of the article.';
 			return $errors;
 		} else {
-			return $result;	
+			return $result;
 		}
 	}
 

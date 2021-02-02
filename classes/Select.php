@@ -54,7 +54,7 @@ class Select {
 	}
 	
 	public function whereFIS($col_name, $value, $and = true) {
-		$where = "FIND_IN_SET (".$this->db->getSQ().", $col_name) > 0";
+		$where = "FIND_IN_SET (.'?'., $col_name) > 0";
 		return $this->where($where, array($value), $and);
 	}
 	

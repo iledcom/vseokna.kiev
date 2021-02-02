@@ -1,14 +1,14 @@
 <?php
 namespace Classes;
 
-class Articles {
+class TestGetArticles {
 	private $form;
 	private $title;
-	private $db;
+	private $request;
 
-	public function __construct(FormHelper $form, $db) {
+	public function __construct(FormHelper $form, RequestDB $request) {
 		$this->form = $form;
-		$this->db = $db;
+		$this->request = $request;
 	}
 
 	public function showArticle() {
@@ -22,11 +22,14 @@ class Articles {
 	}
 
 	private function selectArticle(){
-		$stmt = $this->db->prepare('SELECT art_id, cat, title, description, art_text, art_date, metatitle, metadesc, metakeys, slug FROM article');
-		$stmt->execute();
-		// знак косой черты "\" перед PDO нужен для объявления глобального пространства имён
-		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		
+		$request = $this->request;
+		$table_name = 'article';
+		$fields = array('art_id', 'cat', 'title', 'description', 'art_text', 'art_date', 'metatitle', 'metadesc', 'metakeys', 'slug');
+		$where = false;
+		$params = array(0);
+		$and = false;
+		$in = false;
+		$result = $request->select($table_name, $fields, $where, $params, $and, $in);
 		if (!$result) {
 			$errors[] = 'Check your database connection.';
 		}
