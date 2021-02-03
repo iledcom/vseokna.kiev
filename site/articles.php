@@ -20,9 +20,11 @@ spl_autoload_register(function($class) {
 // подключиться к базе данных
 
 	$post = $_POST;
+	$form = new \Classes\FormHelper();
+	$validate = new \Classes\Validate($db);
 	$request = new \Classes\RequestDB();
-	$view_article = new \Classes\ViewArticle($request, $post);
-	$view_article->showArticle();
+	$view_articles = new \Classes\ViewArticles($form, $request);
+	$view_articles->showArticle();
 
 } else {
 	$errors = array('Error 404. Page not found or does not exist');

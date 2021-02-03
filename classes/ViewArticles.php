@@ -1,7 +1,7 @@
 <?php
 namespace Classes;
 
-class GetArticles {
+class ViewArticles {
 	private $form;
 	private $title;
 	private $request;
